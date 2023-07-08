@@ -1,8 +1,10 @@
 # GinChat
 基于Go语言Gin框架开发的在线客服SAAS系统
-## 目录说明
+## 项目目录结构说明
 <pre><code>
+├── bootstrap -初始化
 ├── cmd -命令行
+├── common -公共
 ├── config -配置文件
 │── doc -文档
 │── log -日志
