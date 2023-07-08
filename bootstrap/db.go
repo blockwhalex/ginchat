@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-func InitializeDB() *gorm.DB {
+func InitDB() *gorm.DB {
 	// 根据驱动配置进行初始化
 	switch common.App.Config.Database.Driver {
 	case "mysql":

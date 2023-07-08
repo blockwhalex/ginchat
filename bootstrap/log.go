@@ -15,7 +15,7 @@ var (
 	options []zap.Option  // zap 配置项
 )
 
-func InitializeLog() *zap.Logger {
+func InitLog() *zap.Logger {
 	// 创建根目录
 	createRootDir()
 

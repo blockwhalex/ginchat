@@ -6,6 +6,7 @@
 ├── cmd -命令行
 ├── common -公共
 ├── config -配置文件
+├── controller -控制器
 │── doc -文档
 │── log -日志
 │── middleware -中间件
