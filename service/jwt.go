@@ -1,7 +1,8 @@
-package common
+package service
 
 import (
 	"context"
+	"ginchat/common"
 	"ginchat/util"
 	"github.com/dgrijalva/jwt-go"
 	"strconv"
@@ -40,7 +41,7 @@ func (jwtService *jwtService) CreateToken(GuardName string, user JwtUser) (token
 		jwt.SigningMethodHS256,
 		CustomClaims{
 			StandardClaims: jwt.StandardClaims{
-				ExpiresAt: time.Now().Unix() + App.Config.Jwt.JwtTtl,
+				ExpiresAt: time.Now().Unix() + common.App.Config.Jwt.JwtTtl,
 				Id:        user.GetUid(),
 				Issuer:    GuardName, // 用于在中间件中区分不同客户端颁发的 token，避免 token 跨端使用
 				NotBefore: time.Now().Unix() - 1000,
@@ -48,11 +49,11 @@ func (jwtService *jwtService) CreateToken(GuardName string, user JwtUser) (token
 		},
 	)
 
-	tokenStr, err := token.SignedString([]byte(App.Config.Jwt.Secret))
+	tokenStr, err := token.SignedString([]byte(common.App.Config.Jwt.Secret))
 
 	tokenData = TokenOutPut{
 		tokenStr,
-		int(App.Config.Jwt.JwtTtl),
+		int(common.App.Config.Jwt.JwtTtl),
 		TokenType,
 	}
 	return
@@ -68,19 +69,19 @@ func (jwtService *jwtService) JoinBlackList(token *jwt.Token) (err error) {
 	nowUnix := time.Now().Unix()
 	timer := time.Duration(token.Claims.(*CustomClaims).ExpiresAt-nowUnix) * time.Second
 	// 将 token 剩余时间设置为缓存有效期，并将当前时间作为缓存 value 值
-	err = App.Redis.SetNX(context.Background(), jwtService.getBlackListKey(token.Raw), nowUnix, timer).Err()
+	err = common.App.Redis.SetNX(context.Background(), jwtService.getBlackListKey(token.Raw), nowUnix, timer).Err()
 	return
 }
 
 // IsInBlacklist token 是否在黑名单中
 func (jwtService *jwtService) IsInBlacklist(tokenStr string) bool {
-	joinUnixStr, err := App.Redis.Get(context.Background(), jwtService.getBlackListKey(tokenStr)).Result()
+	joinUnixStr, err := common.App.Redis.Get(context.Background(), jwtService.getBlackListKey(tokenStr)).Result()
 	joinUnix, err := strconv.ParseInt(joinUnixStr, 10, 64)
 	if joinUnixStr == "" || err != nil {
 		return false
 	}
 	// JwtBlacklistGracePeriod 为黑名单宽限时间，避免并发请求失效
-	if time.Now().Unix()-joinUnix < App.Config.Jwt.JwtBlacklistGracePeriod {
+	if time.Now().Unix()-joinUnix < common.App.Config.Jwt.JwtBlacklistGracePeriod {
 		return false
 	}
 	return true

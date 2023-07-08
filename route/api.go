@@ -1,9 +1,9 @@
 package route
 
 import (
-	"ginchat/common"
 	"ginchat/controller"
 	"ginchat/middleware"
+	"ginchat/service"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,7 +12,7 @@ func SetApiGroupRoutes(router *gin.RouterGroup) {
 	router.POST("/auth/register", controller.Register)
 	router.POST("/auth/login", controller.Login)
 
-	authRouter := router.Group("").Use(middleware.JWTAuth(common.AppGuardName))
+	authRouter := router.Group("").Use(middleware.JWTAuth(service.AppGuardName))
 	{
 		authRouter.POST("/auth/info", controller.Info)
 		authRouter.POST("/auth/logout", controller.Logout)

@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"ginchat/common"
 	"ginchat/common/request"
 	"ginchat/common/response"
 	"ginchat/service"
@@ -19,7 +18,7 @@ func Login(c *gin.Context) {
 	if err, user := service.UserService.Login(form); err != nil {
 		response.BusinessFail(c, err.Error())
 	} else {
-		tokenData, err, _ := common.JwtService.CreateToken(common.AppGuardName, user)
+		tokenData, err, _ := service.JwtService.CreateToken(service.AppGuardName, user)
 		if err != nil {
 			response.BusinessFail(c, err.Error())
 			return
@@ -38,7 +37,7 @@ func Info(c *gin.Context) {
 }
 
 func Logout(c *gin.Context) {
-	err := common.JwtService.JoinBlackList(c.Keys["token"].(*jwt.Token))
+	err := service.JwtService.JoinBlackList(c.Keys["token"].(*jwt.Token))
 	if err != nil {
 		response.BusinessFail(c, "登出失败")
 		return

@@ -33,3 +33,4 @@ redis:
   password:
 jwt:
   jwt_blacklist_grace_period: 10
+  refresh_grace_period: 1800

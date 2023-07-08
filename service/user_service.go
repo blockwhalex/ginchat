@@ -44,3 +44,12 @@ func (userService *userService) GetUserInfo(id string) (err error, user model.Us
 	}
 	return
 }
+func (jwtService *jwtService) GetUserInfo(GuardName string, id string) (err error, user JwtUser) {
+	switch GuardName {
+	case AppGuardName:
+		return UserService.GetUserInfo(id)
+	default:
+		err = errors.New("guard " + GuardName + " does not exist")
+	}
+	return
+}
