@@ -8,7 +8,12 @@ import (
 
 func main() {
 
+	// 初始化配置
 	bootstrap.InitConfig()
+	// 初始化日志
+	common.App.Log = bootstrap.InitializeLog()
+	common.App.Log.Info("log init success!")
+
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
