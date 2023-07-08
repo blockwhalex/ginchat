@@ -38,7 +38,7 @@ func RunServer() {
 		}
 	}()
 
-	// 等待中断信号以优雅地关闭服务器（设置 5 秒的超时时间）
+	// 等待中断信号以优雅地关闭服务器（设置5秒的超时时间）
 	quit := make(chan os.Signal)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
