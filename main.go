@@ -28,7 +28,8 @@ func main() {
 
 	// 初始化验证器
 	bootstrap.InitValidator()
-
+	// 初始化Redis
+	common.App.Redis = bootstrap.InitRedis()
 	// 启动服务器
 	bootstrap.RunServer()
 }
