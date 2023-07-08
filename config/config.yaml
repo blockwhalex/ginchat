@@ -16,7 +16,7 @@ log:
 database:
   driver: mysql # 数据库驱动
   host: 127.0.0.1 # 域名
-  port: 8306 # 端口号
+  port: 3306 # 端口号
   database: ginchat # 数据库名称
   username: root # 用户名
   password: root # 密码
