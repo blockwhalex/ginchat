@@ -3,6 +3,7 @@ package bootstrap
 import (
 	"context"
 	"ginchat/common"
+	"ginchat/middleware"
 	"ginchat/route"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -14,7 +15,13 @@ import (
 )
 
 func setupRouter() *gin.Engine {
-	router := gin.Default()
+	if common.App.Config.App.Env == "production" {
+		gin.SetMode(gin.ReleaseMode)
+	}
+	router := gin.New()
+	router.Use(gin.Logger(), middleware.CustomRecovery())
+	// 跨域处理
+	// router.Use(middleware.Cors())
 
 	// 注册 api 分组路由
 	apiGroup := router.Group("/api/v1")

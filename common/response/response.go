@@ -4,6 +4,7 @@ import (
 	"ginchat/common"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"os"
 )
 
 // 响应结构体
@@ -48,4 +49,20 @@ func BusinessFail(c *gin.Context, msg string) {
 
 func TokenFail(c *gin.Context) {
 	FailByError(c, common.Errors.TokenError)
+}
+
+func ServerError(c *gin.Context, err interface{}) {
+	msg := "Internal Server Error"
+	// 非生产环境显示具体错误信息
+	if common.App.Config.App.Env != "production" && os.Getenv(gin.EnvGinMode) != gin.ReleaseMode {
+		if _, ok := err.(error); ok {
+			msg = err.(error).Error()
+		}
+	}
+	c.JSON(http.StatusInternalServerError, Response{
+		http.StatusInternalServerError,
+		nil,
+		msg,
+	})
+	c.Abort()
 }
