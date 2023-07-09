@@ -15,19 +15,19 @@ type userService struct {
 var UserService = new(userService)
 
 // Register 注册
-func (userService *userService) Register(params request.Register) (err error, user model.User) {
-	var result = common.App.DB.Where("mobile = ?", params.Mobile).Select("id").First(&model.User{})
+func (userService *userService) Register(params request.Register) (err error, user model.TenantUser) {
+	var result = common.App.DB.Where("mobile = ?", params.Mobile).Select("id").First(&model.TenantUser{})
 	if result.RowsAffected != 0 {
 		err = errors.New("手机号已存在")
 		return
 	}
-	user = model.User{Name: params.Name, Mobile: params.Mobile, Password: util.BcryptMake([]byte(params.Password))}
+	user = model.TenantUser{NickName: params.Name, Phone: params.Mobile, Password: util.BcryptMake([]byte(params.Password))}
 	err = common.App.DB.Create(&user).Error
 	return
 }
 
 // Login 登录
-func (userService *userService) Login(params request.Login) (err error, user *model.User) {
+func (userService *userService) Login(params request.Login) (err error, user *model.TenantUser) {
 	err = common.App.DB.Where("mobile = ?", params.Mobile).First(&user).Error
 	if err != nil || !util.BcryptMakeCheck([]byte(params.Password), user.Password) {
 		err = errors.New("用户名不存在或密码错误")
@@ -36,7 +36,7 @@ func (userService *userService) Login(params request.Login) (err error, user *mo
 }
 
 // GetUserInfo 获取用户信息
-func (userService *userService) GetUserInfo(id string) (err error, user model.User) {
+func (userService *userService) GetUserInfo(id string) (err error, user model.TenantUser) {
 	intId, err := strconv.Atoi(id)
 	err = common.App.DB.First(&user, intId).Error
 	if err != nil {

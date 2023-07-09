@@ -1,6 +1,7 @@
 package util
 
 import (
+	"github.com/google/uuid"
 	"math/rand"
 	"time"
 )
@@ -13,4 +14,8 @@ func RandString(len int) string {
 		bytes[i] = byte(b)
 	}
 	return string(bytes)
+}
+
+func GenerateUuid() string {
+	return uuid.New().String()
 }

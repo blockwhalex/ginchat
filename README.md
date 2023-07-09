@@ -10,9 +10,16 @@
 │── doc -文档
 │── log -日志
 │── middleware -中间件
-│── model -数据表模型
+│── model -模型
 │── route -路由
 │── service -服务
+│── static -静态资源
+│── template -模板
 │── test -测试
 │── util -通用库
 </code></pre>
+
+## 运行方式
+<code>
+go run main.go
+</code>

@@ -6,7 +6,7 @@ import "strconv"
 type TenantUser struct {
 	Model
 	NickName string `json:"nick_name" gorm:"comment:昵称"`
-	Email    string `json:"email" gorm:"not null;comment:邮箱"`
+	Email    string `json:"email" gorm:"type:varchar(110);not_null;default '';unique_index;comment:邮箱"`
 	Phone    string `json:"phone" gorm:"not null;index;comment:手机号"`
 	Password string `json:"-" gorm:"not null;default:'';comment:用户密码"`
 	Avatar   string `json:"avatar" gorm:"comment:头像"`

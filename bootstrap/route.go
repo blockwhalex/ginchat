@@ -27,6 +27,11 @@ func setupRouter() *gin.Engine {
 	apiGroup := router.Group("/api/v1")
 	route.SetApiGroupRoutes(apiGroup)
 
+	// 加载静态模板
+	router.LoadHTMLGlob("template/*")
+	webGroup := router.Group("")
+	route.SetWebGroupRoutes(webGroup)
+
 	return router
 }
 

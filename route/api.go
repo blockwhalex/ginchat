@@ -11,7 +11,7 @@ import (
 func SetApiGroupRoutes(router *gin.RouterGroup) {
 	router.POST("/auth/register", controller.Register)
 	router.POST("/auth/login", controller.Login)
-
+	router.GET("/ws", controller.Websocket)
 	authRouter := router.Group("").Use(middleware.JWTAuth(service.AppGuardName))
 	{
 		authRouter.POST("/auth/info", controller.Info)
