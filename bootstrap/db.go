@@ -8,6 +8,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"gorm.io/gorm/schema"
 	"io"
 	"log"
 	"os"
@@ -45,6 +46,9 @@ func initMySqlGorm() *gorm.DB {
 	if db, err := gorm.Open(mysql.New(mysqlConfig), &gorm.Config{
 		DisableForeignKeyConstraintWhenMigrating: true,            // 禁用自动创建外键约束
 		Logger:                                   getGormLogger(), // 使用自定义 Logger
+		NamingStrategy: schema.NamingStrategy{ // 表名单数
+			SingularTable: true,
+		},
 	}); err != nil {
 		common.App.Log.Error("mysql connect failed, err:", zap.Any("err", err))
 		return nil

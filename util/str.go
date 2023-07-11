@@ -16,6 +16,10 @@ func RandString(len int) string {
 	return string(bytes)
 }
 
+func RandInt(min int, max int) int {
+	return min + rand.Intn(max-min)
+}
+
 func GenerateUuid() string {
 	return uuid.New().String()
 }

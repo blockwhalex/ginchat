@@ -1,13 +1,14 @@
 package controller
 
 import (
+	"fmt"
 	"ginchat/util"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func Index(c *gin.Context) {
-	c.HTML(http.StatusOK, "index.html", gin.H{
-		"visitor_id": util.GenerateUuid(),
-	})
+	fmt.Println(util.GetIpLocation("14.127.123.1"))
+	//c.HTML(http.StatusOK, "index.html", gin.H{
+	//	"visitor_id": util.GenerateUuid(),
+	//})
 }

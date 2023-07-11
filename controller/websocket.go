@@ -1,11 +1,11 @@
 package controller
 
 import (
-	"ginchat/service"
+	"ginchat/service/websocket"
 	"github.com/gin-gonic/gin"
 )
 
 func Websocket(c *gin.Context) {
-	service.MsgHandler(c)
+	websocket.MsgHandler(c)
 	return
 }
