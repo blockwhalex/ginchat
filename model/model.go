@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+var db *gorm.DB
+
 type Model struct {
 	ID        uint           `json:"id" gorm:"primaryKey;comment:ID"`
 	TenantId  uint           `json:"tenant_id" gorm:"comment:租户ID"`
